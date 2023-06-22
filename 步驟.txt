@@ -1,0 +1,16 @@
+1. 初始化專案，建立名為 package.json 的檔案。這個檔案會紀錄當前專案資料夾中已經安裝了哪些來自 npm 的套件，還有一些和這個專案有關的資訊。
+
+2.安裝express 及handlebars
+
+3.建立app.js架設路由
+
+4.建立layout
+5.index.handlebars並套入bootstrap靜態畫面
+
+6.載入restanrant.json並改寫index.handlebars，使其成為動態畫面
+
+7.建立show.handlebars設定好靜態網站
+
+8.載入restanrant.json並改寫show.handlebars，使其成為動態畫面，並設定對應動態路由
+
+9.製作搜尋功能
