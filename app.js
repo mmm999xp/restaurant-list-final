@@ -1,11 +1,31 @@
 //載入必要檔案或套件
 const express = require('express')
 const exphbs = require('express-handlebars')
+const mongoose = require('mongoose')
+
 //載入餐廳資料
 const restaurants = require('./restaurant.json')
 const app = express()
 
+if(process.env.NODE_ENV !== 'production'){
+  require('dotenv').config()
+}
+//連線資料庫，使用環境變數以避免安全性問題
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+ })
 
+//取得資料庫的連線狀態(成功或失敗)，並根據結果回傳console訊息
+const db = mongoose.connection
+//連線異常
+db.on('error', ()=>{
+  console.log('MongoDB error !')
+})
+//連線成功
+db.once('open', ()=>{
+  console.log('mongoDB connected')
+})
 
 //設定樣板引擎，並指定main檔案為全局layout
 app.engine('handlebars',exphbs({
@@ -53,5 +73,5 @@ app.get('/search',(req,res)=>{
 
 //監聽伺服器
 app.listen(port , ()=>{
-  console.log(`localhost:${port}`)
+  console.log(`http://localhost:${port}`)
 })

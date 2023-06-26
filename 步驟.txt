@@ -14,3 +14,15 @@
 8.載入restanrant.json並改寫show.handlebars，使其成為動態畫面，並設定對應動態路由
 
 9.製作搜尋功能
+
+
+
+CRUD實作
+1.連線資料庫
+2.制定資料schema
+3.建立種子資料
+4.Create
+5.Detail
+6.Update
+7.Delete
+
