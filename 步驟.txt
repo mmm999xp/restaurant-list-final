@@ -18,11 +18,12 @@
 
 
 CRUD實作
-1.連線資料庫
-2.制定資料schema
-3.建立種子資料
-4.Create
-5.Detail
-6.Update
-7.Delete
+1.連線資料庫 ok
+2.制定資料schema ok
+3.建立種子資料 ok
+4.連線資料庫引入瀏覽首頁所有餐廳內容
+5.Create
+6.Detail
+7.Update
+8.Delete
 

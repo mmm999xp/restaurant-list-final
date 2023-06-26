@@ -2,7 +2,8 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
-
+//載入restaurant model
+const restaurantModel = require('./models/restaurant')
 //載入餐廳資料
 const restaurants = require('./restaurant.json')
 const app = express()
@@ -42,7 +43,11 @@ const port = 3000
 
 //設定路由
 app.get('/',(req,res)=>{
-  res.render('index',{restaurants: restaurants.results} )
+  restaurantModel.find()
+  .lean()
+    .then(data => res.render('index', { restaurants: data }))
+    .catch(error => console.error(error))
+
 })
 
 //設定餐廳詳細資料show的動態路由
