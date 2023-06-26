@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 //載入restaurant model
 const restaurantModel = require('./models/restaurant')
 //載入餐廳資料
-const restaurants = require('./restaurant.json')
+//const restaurants = require('./restaurant.json')
 const app = express()
 
 if(process.env.NODE_ENV !== 'production'){
@@ -35,13 +35,16 @@ app.engine('handlebars',exphbs({
 
 //套入靜態檔案
 app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+
+
 //設定視圖引擎
 app.set('view engine' , 'handlebars')
 
 //建立伺服器參數
 const port = 3000
 
-//設定路由
+//設定index首頁路由
 app.get('/',(req,res)=>{
   restaurantModel.find()
   .lean()
@@ -50,14 +53,48 @@ app.get('/',(req,res)=>{
 
 })
 
+//設定新增頁面的路由
+app.get('/restaurants/new', (req,res)=>{
+  res.render('new')
+})
+
+//設定create動作
+app.post('/restaurants', (req,res)=>{
+  const name = req.body.name
+  const name_en = req.body.name_en
+  const category = req.body.category
+  const image = req.body.image
+  const location = req.body.location
+  const phone = req.body.phone
+  const google_map = req.body.google_map
+  const rating = req.body.rating
+  const description = req.body.description
+
+  restaurantModel.create({
+    name, name_en, category, image, location, phone, google_map, rating, description
+  })
+  .then(()=>res.redirect('/'))
+  .catch(error => console.log(error))
+
+})
+
+
+
+
+
+
 //設定餐廳詳細資料show的動態路由
 app.get('/restaurants/:id', (req, res) => {
   //注意params取回的是字串
   const restaurantID = req.params.id
-  const restaurantData = restaurants.results.find((data)=>{
-    return data.id.toString() === restaurantID 
-  })
-   res.render('show' , {data : restaurantData })
+  // const restaurantData = restaurants.results.find((data)=>{
+  //   return data.id.toString() === restaurantID 
+  // })
+  //  res.render('show' , {data : restaurantData })
+  return restaurantModel.findById(restaurantID)
+    .lean()
+    .then((data) => res.render('show', { data }))
+    .catch(error => console.log(error))
 })
 
 app.get('/search',(req,res)=>{
