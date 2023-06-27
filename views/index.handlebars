@@ -26,8 +26,9 @@
       <div class="row row-cols-sm-3">
 {{!-- a標籤的id是由mongoDB自動賦予的，並非我們設定，因此要用._id --}}
         {{#each restaurants}}
-        <a href="/restaurants/{{this._id}}" class="text-secondary">
-          <div class="card mb-3">
+       
+          <div class="card mb-3 ">
+            <a href="/restaurants/{{this._id}}" class="text-secondary">
             <img class="card-img-top" src="{{this.image}}"
               alt="{{this.name}}">
             <div class="card-body p-3">
@@ -41,10 +42,14 @@
                 {{this.rating}}
                 <i class="fas fa-star fa-xs"></i>
               </span>
-
+            </div>
+            </a>
+            <div class="footer mb-2 d-flex justify-content-end align-items-center">
+              <a href="/restaurants/{{this._id}}/edit" class="mx-4">edit</a>
+              <button type="button" class="btn btn-danger">Delete</button>
             </div>
           </div>
-        </a>
+        
         {{/each}}
 
 

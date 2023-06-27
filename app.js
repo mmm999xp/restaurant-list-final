@@ -59,7 +59,7 @@ app.get('/restaurants/new', (req,res)=>{
 })
 
 //設定create動作
-app.post('/restaurants', (req,res)=>{
+app.post('/new', (req,res)=>{
   const name = req.body.name
   const name_en = req.body.name_en
   const category = req.body.category
@@ -78,8 +78,44 @@ app.post('/restaurants', (req,res)=>{
 
 })
 
-
-
+//新增編輯頁面路由
+app.get('/restaurants/:id/edit' , (req, res)=>{
+  //注意params取回的是字串
+  const restaurantID = req.params.id
+  return restaurantModel.findById(restaurantID)
+  .lean()
+  .then((data) => res.render('edit' , { data }))
+  
+})
+//新增編輯路由
+app.post('/:id/edit' , (req,res)=>{
+  //注意params取回的是字串
+  const restaurantID = req.params.id
+  const name = req.body.name
+  const name_en = req.body.name_en
+  const category = req.body.category
+  const image = req.body.image
+  const location = req.body.location
+  const phone = req.body.phone
+  const google_map = req.body.google_map
+  const rating = req.body.rating
+  const description = req.body.description
+  return restaurantModel.findById(restaurantID)
+  .then((data)=>{
+    data.name = name
+    data.name_en = name_en
+    data.category = category
+    data.image = image
+    data.location = location
+    data.phone = phone
+    data.google_map = google_map
+    data.rating = rating
+    data.description = description
+    return data.save()
+  })
+  .then(() => res.redirect('/'))
+  .catch(error => console.log(error))
+})
 
 
 
