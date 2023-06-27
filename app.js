@@ -145,11 +145,22 @@ app.get('/restaurants/:id', (req, res) => {
 app.get('/search',(req,res)=>{
   //取出關鍵字
   const keyWord = req.query.keyword
-  const filterRestaurants = restaurants.results.filter((data)=>{
-    //只要名稱或類別其中一個符合就回傳
-    return data.name.includes(keyWord) || data.category.includes(keyWord)
-  })
-  res.render('index', { restaurants: filterRestaurants, keyword: keyWord })
+  
+  // const filterRestaurants = restaurants.results.filter((data)=>{
+  //   //只要名稱或類別其中一個符合就回傳
+  //   return data.name.includes(keyWord) || data.category.includes(keyWord)
+  // })
+  // res.render('index', { restaurants: filterRestaurants, keyword: keyWord })
+
+   restaurantModel.find().lean()
+     .then((data) => {
+      const filterRestaurants = data.filter((filterData)=>{
+        return filterData.name.includes(keyWord) || filterData.category.includes(keyWord)
+      })
+       res.render('index', { restaurants: filterRestaurants, keyword: keyWord })
+    })
+     
+
 })
 
 
