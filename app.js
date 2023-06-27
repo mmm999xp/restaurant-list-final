@@ -117,6 +117,15 @@ app.post('/:id/edit' , (req,res)=>{
   .catch(error => console.log(error))
 })
 
+//設定刪除路由
+app.post('/:id/delete' , (req,res)=>{
+  //注意params取回的是字串
+  const restaurantID = req.params.id
+  return restaurantModel.findById(restaurantID)
+  .then(data => data.remove())
+  .then(()=> res.redirect('/'))
+  .catch(error => console.log(error))
+})
 
 
 //設定餐廳詳細資料show的動態路由

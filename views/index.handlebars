@@ -46,7 +46,11 @@
             </a>
             <div class="footer mb-2 d-flex justify-content-end align-items-center">
               <a href="/restaurants/{{this._id}}/edit" class="mx-4">edit</a>
-              <button type="button" class="btn btn-danger">Delete</button>
+              <form action="/{{this._id}}/delete" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+              
+
             </div>
           </div>
         

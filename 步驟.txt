@@ -24,6 +24,6 @@ CRUD實作
 4.連線資料庫引入瀏覽首頁所有餐廳內容
 5.Create ok
 6.Detail ok
-7.Update
-8.Delete
+7.Update ok
+8.Delete ok
 
