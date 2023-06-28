@@ -60,19 +60,7 @@ app.get('/restaurants/new', (req,res)=>{
 
 //設定create動作
 app.post('/new', (req,res)=>{
-  const name = req.body.name
-  const name_en = req.body.name_en
-  const category = req.body.category
-  const image = req.body.image
-  const location = req.body.location
-  const phone = req.body.phone
-  const google_map = req.body.google_map
-  const rating = req.body.rating
-  const description = req.body.description
-
-  restaurantModel.create({
-    name, name_en, category, image, location, phone, google_map, rating, description
-  })
+  restaurantModel.create(req.body)
   .then(()=>res.redirect('/'))
   .catch(error => console.log(error))
 
@@ -89,17 +77,14 @@ app.get('/restaurants/:id/edit' , (req, res)=>{
 })
 //新增編輯路由
 app.post('/:id/edit' , (req,res)=>{
-  //注意params取回的是字串
+  // //注意params取回的是字串
   const restaurantID = req.params.id
-  const name = req.body.name
-  const name_en = req.body.name_en
-  const category = req.body.category
-  const image = req.body.image
-  const location = req.body.location
-  const phone = req.body.phone
-  const google_map = req.body.google_map
-  const rating = req.body.rating
-  const description = req.body.description
+  const {
+    name, name_en, category,
+    image, location, phone,
+    google_map, rating, description
+  } = req.body
+
   return restaurantModel.findById(restaurantID)
   .then((data)=>{
     data.name = name
@@ -111,6 +96,7 @@ app.post('/:id/edit' , (req,res)=>{
     data.google_map = google_map
     data.rating = rating
     data.description = description
+    
     return data.save()
   })
   .then(() => res.redirect('/'))
@@ -132,10 +118,6 @@ app.post('/:id/delete' , (req,res)=>{
 app.get('/restaurants/:id', (req, res) => {
   //注意params取回的是字串
   const restaurantID = req.params.id
-  // const restaurantData = restaurants.results.find((data)=>{
-  //   return data.id.toString() === restaurantID 
-  // })
-  //  res.render('show' , {data : restaurantData })
   return restaurantModel.findById(restaurantID)
     .lean()
     .then((data) => res.render('show', { data }))
@@ -144,18 +126,11 @@ app.get('/restaurants/:id', (req, res) => {
 
 app.get('/search',(req,res)=>{
   //取出關鍵字
-  const keyWord = req.query.keyword
-  
-  // const filterRestaurants = restaurants.results.filter((data)=>{
-  //   //只要名稱或類別其中一個符合就回傳
-  //   return data.name.includes(keyWord) || data.category.includes(keyWord)
-  // })
-  // res.render('index', { restaurants: filterRestaurants, keyword: keyWord })
-
+  const keyWord = req.query.keyword.trim().toLowerCase()
    restaurantModel.find().lean()
      .then((data) => {
       const filterRestaurants = data.filter((filterData)=>{
-        return filterData.name.includes(keyWord) || filterData.category.includes(keyWord)
+        return filterData.name.toLowerCase().includes(keyWord) || filterData.category.toLowerCase().includes(keyWord)
       })
        res.render('index', { restaurants: filterRestaurants, keyword: keyWord })
     })
