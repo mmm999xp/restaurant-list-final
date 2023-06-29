@@ -4,7 +4,7 @@ const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 //載入restaurant model
 const restaurantModel = require('./models/restaurant')
-//載入餐廳資料
+const helpers = require('handlebars-helpers')();
 //const restaurants = require('./restaurant.json')
 const app = express()
 

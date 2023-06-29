@@ -1,11 +1,11 @@
 
 
 
-<form class="needs-validation" action="/{{data._id}}/edit" method="post">
+<form class="needs-validation" action="/{{data._id}}/edit" method="post" novalidate>
   {{!-- name required --}}
   <div class="mt-3 w-50 mx-auto">
     <label for="name" class="form-label">*Name :</label>
-    <input type="text" class="form-control" id="name" aria-describedby="nameHelp" name="name" placeholder="請輸入餐聽名稱" required value="{{data.name}}">
+    <input type="text" class="form-control" id="name" aria-describedby="nameHelp" name="name" placeholder="*必填,請輸入餐聽名稱" required value="{{data.name}}">
     <div class="invalid-feedback">
       請輸入餐廳名稱!
     </div>
@@ -14,31 +14,31 @@
   {{!-- name_en --}}
   <div class="mt-2 w-50 mx-auto">
     <label for="name_en" class="form-label">English Name :</label>
-    <input type="text" class="form-control" id="name_en" aria-describedby="name_en_Help" name="name_en" value="{{data.name_en}}" placeholder="請輸入餐聽英文名稱" >
+    <input type="text" class="form-control" id="name_en" aria-describedby="name_en_Help" name="name_en" value="{{data.name_en}}" placeholder="選填,請輸入餐聽英文名稱" >
     
   </div>
 
-  {{!-- category required --}}
+  {{!-- category  --}}
   <div class="mt-2 w-50 mx-auto">
     <label for="category" class="form-label">*category :</label>
-    <input list="category-list" class="form-control" id="category" aria-describedby="categoryHelp" name="category"
-      placeholder="請輸入餐聽風格" value="{{data.category}}" required>
+
     
-    <datalist id="category-list">
-      <option>美式料理</option>
-      <option>義式料理</option>
-      <option>日式料理</option>
-      <option>韓式料理</option>
-      <option>台式料理</option>
-    </datalist>
-    <div class="invalid-feedback">
-      請選擇或自行輸入餐廳風格!
-    </div>
+    <select id="category" class="form-control" aria-describedby="categoryHelp" name="category"  >
+      <option {{#if (eq data.category '美式') }}selected{{/if}}>美式</option>
+      <option {{#if (eq data.category '義式餐廳') }}selected{{/if}}>義式餐廳</option>
+      <option {{#if (eq data.category '日本料理') }}selected{{/if}}>日本料理</option>
+      <option {{#if (eq data.category '韓式料理') }}selected{{/if}}>韓式料理</option>
+      <option {{#if (eq data.category '台式料理') }}selected{{/if}}>台式料理</option>
+      <option {{#if (eq data.category '中東料理') }}selected{{/if}}>中東料理</option>
+      <option {{#if (eq data.category '咖啡') }}selected{{/if}}>咖啡</option>
+      <option {{#if (eq data.category '酒吧') }}selected{{/if}}>酒吧</option>
+    </select>
+ 
   </div>
   {{!-- image --}}
   <div class="mt-2 w-50 mx-auto">
     <label for="image" class="form-label">image :</label>
-    <input type="URL" class="form-control" id="image" aria-describedby="imageHelp" name="image" value="{{data.image}}" placeholder="請輸入餐廳圖片 http:/">
+    <input type="URL" class="form-control" id="image" aria-describedby="imageHelp" name="image" value="{{data.image}}" placeholder="選填,請輸入餐廳圖片 http:/">
     <div class="invalid-feedback">
       網址輸入不合法，請重新輸入!
     </div>
@@ -49,7 +49,7 @@
     <label for="location" class="form-label">*location :</label>
     <div class="twzipcode"></div>
     <input type="text" class="form-control" id="location" aria-describedby="locationHelp" name="location"
-      placeholder="請輸入街道樓層" value="{{data.location}}" required>
+      placeholder="*必填,請輸入街道樓層" value="{{data.location}}" required>
     <div class="invalid-feedback">
       請輸入餐廳地址!
     </div>
@@ -58,7 +58,7 @@
   {{!-- phone --}}
   <div class="mt-2 w-50 mx-auto">
     <label for="phone" class="form-label">phone :</label>
-    <input type="tel" class="form-control" id="phone" aria-describedby="phoneHelp" name="phone" value="{{data.phone}}" placeholder="請輸入餐廳電話">
+    <input type="tel" class="form-control" id="phone" aria-describedby="phoneHelp" name="phone" value="{{data.phone}}" placeholder="選填,請輸入餐廳電話">
     <div class="invalid-feedback">
       電話輸入不合法!只能輸入數字。
     </div>
@@ -67,7 +67,7 @@
   {{!-- google_map --}}
   <div class="mt-2 w-50 mx-auto">
     <label for="google_map" class="form-label">google map :</label>
-    <input type="URL" class="form-control" id="google_map" aria-describedby="google_map_Help" name="google_map" value="{{data.google_map}}" placeholder="請輸入餐廳Google Map 網址 http:/">
+    <input type="URL" class="form-control" id="google_map" aria-describedby="google_map_Help" name="google_map" value="{{data.google_map}}" placeholder="選填,請輸入餐廳Google Map 網址 http:/">
     <div class="invalid-feedback">
       網址輸入不合法，請重新輸入!
     </div>
@@ -75,15 +75,15 @@
   {{!-- rating --}}
   <div class="mt-2 w-50 mx-auto">
     <label for="rating" class="form-label">rating :</label>
-    <input type="number" class="form-control" id="rating" aria-describedby="ratingHelp" name="rating" value="{{data.rating}}" placeholder="請輸入餐廳預設評分 " step="0.1">
+    <input type="number" class="form-control" id="rating" aria-describedby="ratingHelp" name="rating" value="{{data.rating}}" placeholder="選填,請輸入餐廳預設評分 " step="0.1" min="0" max="5">
     <div class="invalid-feedback">
-      預設評分輸入不合法，只能輸入數字，請重新輸入!
+      預設評分輸入不合法,只能輸入數字且介於0到5之間,請重新輸入!
     </div>
   </div>
   {{!-- description required --}}
   <div class="mt-2 w-50 mx-auto">
     <label for="description" class="form-label">*description :</label>
-    <textarea class="form-control" id="description" name="description" rows="8" required >{{data.description}}</textarea>
+    <textarea class="form-control" id="description" name="description" rows="8" placeholder="*必填,請輸入餐廳描述 " required >{{data.description}}</textarea>
     <div class="invalid-feedback">
       請輸入餐廳描述!
     </div>
