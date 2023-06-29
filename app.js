@@ -93,23 +93,25 @@ app.post('/:id/edit' , (req,res)=>{
     image, location, phone,
     google_map, rating, description
   } = req.body
+  if (checkData.checkData(req.body)){
+    return restaurantModel.findById(restaurantID)
+      .then((data) => {
+        data.name = name
+        data.name_en = name_en
+        data.category = category
+        data.image = image
+        data.location = location
+        data.phone = phone
+        data.google_map = google_map
+        data.rating = rating
+        data.description = description
 
-  return restaurantModel.findById(restaurantID)
-  .then((data)=>{
-    data.name = name
-    data.name_en = name_en
-    data.category = category
-    data.image = image
-    data.location = location
-    data.phone = phone
-    data.google_map = google_map
-    data.rating = rating
-    data.description = description
-    
-    return data.save()
-  })
-  .then(() => res.redirect('/'))
-  .catch(error => console.log(error))
+        return data.save()
+      })
+      .then(() => res.redirect('/'))
+      .catch(error => console.log(error))
+  }
+  
 })
 
 //設定刪除路由
