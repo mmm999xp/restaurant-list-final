@@ -4,8 +4,12 @@ const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 //載入restaurant model
 const restaurantModel = require('./models/restaurant')
+//載入hbs-helpers，這樣才能使用{{#if (eq value1 value2 )}}的判斷
 const helpers = require('handlebars-helpers')();
-//const restaurants = require('./restaurant.json')
+
+//載入資料驗證
+const checkData = require('./public/javascripts/checkData')
+
 const app = express()
 
 if(process.env.NODE_ENV !== 'production'){
@@ -46,6 +50,7 @@ const port = 3000
 
 //設定index首頁路由
 app.get('/',(req,res)=>{
+  
   restaurantModel.find()
   .lean()
     .then(data => res.render('index', { restaurants: data }))
@@ -60,9 +65,13 @@ app.get('/restaurants/new', (req,res)=>{
 
 //設定create動作
 app.post('/new', (req,res)=>{
-  restaurantModel.create(req.body)
-  .then(()=>res.redirect('/'))
-  .catch(error => console.log(error))
+  //console.log(checkData.checkData(req.body))
+  if (checkData.checkData(req.body)){
+    restaurantModel.create(req.body)
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+  }
+  
 
 })
 
