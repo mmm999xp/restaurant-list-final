@@ -65,10 +65,10 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   //注意params取回的是字串
   const restaurantID = req.params.id
-  return restaurantModel.findById(restaurantID)
-    .then(data => data.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+   return restaurantModel.findById(restaurantID)
+     .then(data => data.remove())
+     .then(() => res.redirect('/'))
+     .catch(error => console.log(error))
 })
 
 
