@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const restaurantModel = require('./models/restaurant')
 //載入hbs-helpers，這樣才能使用{{#if (eq value1 value2 )}}的判斷
 const helpers = require('handlebars-helpers')();
-
+const methodOverride = require('method-override') 
 //載入資料驗證
 const checkData = require('./lib/checkData')
 
@@ -40,7 +40,7 @@ app.engine('handlebars',exphbs({
 //套入靜態檔案
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
-
+app.use(methodOverride('_method'))
 
 //設定視圖引擎
 app.set('view engine' , 'handlebars')
@@ -85,7 +85,7 @@ app.get('/restaurants/:id/edit' , (req, res)=>{
   
 })
 //新增編輯路由
-app.post('/:id/edit' , (req,res)=>{
+app.put('/:id' , (req,res)=>{
   // //注意params取回的是字串
   const restaurantID = req.params.id
   const {
@@ -115,7 +115,7 @@ app.post('/:id/edit' , (req,res)=>{
 })
 
 //設定刪除路由
-app.post('/:id/delete' , (req,res)=>{
+app.delete('/:id' , (req,res)=>{
   //注意params取回的是字串
   const restaurantID = req.params.id
   return restaurantModel.findById(restaurantID)
