@@ -8,7 +8,7 @@ const restaurantModel = require('./models/restaurant')
 const helpers = require('handlebars-helpers')();
 
 //載入資料驗證
-const checkData = require('./public/javascripts/checkData')
+const checkData = require('./lib/checkData')
 
 const app = express()
 
