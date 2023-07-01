@@ -7,10 +7,11 @@ const restaurantModel = require('../../models/restaurant')
 
 //設定index首頁路由
 router.get('/', (req, res) => {
-
+const sort = "排序"
   restaurantModel.find()
     .lean()
-    .then(data => res.render('index', { restaurants: data }))
+    .sort({ name: 'asc' })
+    .then(data => res.render('index', { restaurants: data, sort1: sort }))
     .catch(error => console.error(error))
 
 })

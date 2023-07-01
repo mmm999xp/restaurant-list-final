@@ -1,14 +1,9 @@
 //載入必要檔案或套件
 const express = require('express')
 const exphbs = require('express-handlebars')
-const mongoose = require('mongoose')
-//載入restaurant model
-const restaurantModel = require('./models/restaurant')
 //載入hbs-helpers，這樣才能使用{{#if (eq value1 value2 )}}的判斷
 const helpers = require('handlebars-helpers')();
 const methodOverride = require('method-override') 
-//載入資料驗證
-const checkData = require('./lib/checkData')
 const routes = require('./routes/index')
 const app = express()
 

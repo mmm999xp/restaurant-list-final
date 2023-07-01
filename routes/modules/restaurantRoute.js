@@ -94,4 +94,29 @@ router.get('/search', (req, res) => {
     })
 
 })
+
+router.get('/sort/:sort',(req,res)=>{
+  const sort = req.params.sort
+  let dataBase = restaurantModel.find().lean()
+  if (sort === "A-Z") {
+    dataBase = dataBase.sort({ name: 'asc'})
+  } else if (sort === "Z-A") {
+    dataBase = dataBase.sort({ name: 'desc' })
+  } else if (sort === "類別"){
+    dataBase = dataBase.sort({ category: 'asc' })
+  } else if (sort === "地區"){
+    dataBase = dataBase.sort({ location: 'asc' })
+  }
+
+  dataBase
+  .then((data) => { 
+    res.render('index', { 
+      restaurants: data, 
+      sort1: sort  
+    })
+  })
+  .catch(error => console.log(error))
+})
+
+
 module.exports = router
