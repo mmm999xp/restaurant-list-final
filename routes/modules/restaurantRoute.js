@@ -12,8 +12,10 @@ router.get('/restaurants/new', (req, res) => {
 
 //設定create動作
 router.post('/new', (req, res) => {
-  //console.log(checkData.checkData(req.body))
+  const userId = req.user._id
   if (checkData.checkData(req.body)) {
+    //加入userId到req.body這個物件中
+    req.body.userId = userId
     restaurantModel.create(req.body)
       .then(() => res.redirect('/'))
       .catch(error => console.log(error))
@@ -25,15 +27,21 @@ router.post('/new', (req, res) => {
 //新增編輯頁面路由
 router.get('/restaurants/:id/edit', (req, res) => {
   //注意params取回的是字串
+  const userId = req.user._id
   const restaurantID = req.params.id
-  return restaurantModel.findById(restaurantID)
+  return restaurantModel.findOne({ 
+    _id :restaurantID,
+     userId })
     .lean()
-    .then((data) => res.render('edit', { data }))
 
+    .then((data) => res.render('edit', { data }))
+    .catch(error => console.log(error))
 })
+
 //新增編輯路由
 router.put('/:id', (req, res) => {
   // //注意params取回的是字串
+  const userId = req.user._id
   const restaurantID = req.params.id
   const {
     name, name_en, category,
@@ -41,7 +49,9 @@ router.put('/:id', (req, res) => {
     google_map, rating, description
   } = req.body
   if (checkData.checkData(req.body)) {
-    return restaurantModel.findById(restaurantID)
+    return restaurantModel.findOne({ 
+      _id: restaurantID,
+      userId })
       .then((data) => {
         data.name = name
         data.name_en = name_en
@@ -64,8 +74,11 @@ router.put('/:id', (req, res) => {
 //設定刪除路由
 router.delete('/:id', (req, res) => {
   //注意params取回的是字串
+  const userId = req.user._id
   const restaurantID = req.params.id
-   return restaurantModel.findById(restaurantID)
+   return restaurantModel.findOne({
+     _id: restaurantID 
+    ,userId})
      .then(data => data.remove())
      .then(() => res.redirect('/'))
      .catch(error => console.log(error))
@@ -75,8 +88,11 @@ router.delete('/:id', (req, res) => {
 //設定餐廳詳細資料show的動態路由
 router.get('/restaurants/:id', (req, res) => {
   //注意params取回的是字串
+  const userId = req.user._id
   const restaurantID = req.params.id
-  return restaurantModel.findById(restaurantID)
+  return restaurantModel.findOne({ 
+    _id: restaurantID,
+    userId })
     .lean()
     .then((data) => res.render('show', { data }))
     .catch(error => console.log(error))
@@ -85,7 +101,10 @@ router.get('/restaurants/:id', (req, res) => {
 router.get('/search', (req, res) => {
   //取出關鍵字
   const keyWord = req.query.keyword.trim().toLowerCase()
-  restaurantModel.find().lean()
+  //注意params取回的是字串
+  const userId = req.user._id
+
+  restaurantModel.find({userId}).lean()
     .then((data) => {
       const filterRestaurants = data.filter((filterData) => {
         return filterData.name.toLowerCase().includes(keyWord) || filterData.category.toLowerCase().includes(keyWord)
@@ -96,8 +115,9 @@ router.get('/search', (req, res) => {
 })
 
 router.get('/sort/:sort',(req,res)=>{
+  const userId = req.user._id
   const sort = req.params.sort
-  let dataBase = restaurantModel.find().lean()
+  let dataBase = restaurantModel.find({ userId }).lean()
   if (sort === "A-Z") {
     dataBase = dataBase.sort({ name: 'asc'})
   } else if (sort === "Z-A") {

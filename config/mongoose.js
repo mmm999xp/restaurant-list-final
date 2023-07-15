@@ -4,7 +4,8 @@ const mongoose = require('mongoose')
 //連線資料庫，使用環境變數以避免安全性問題
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 })
 
 const db = mongoose.connection
