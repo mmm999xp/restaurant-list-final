@@ -37,6 +37,12 @@ app.use(session({
 
 usePassport(app)
 
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
+
 //建立伺服器參數
 const port = 3000
 
