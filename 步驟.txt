@@ -25,3 +25,4 @@ CRUD實作
 3.完成註冊表單頁面ok
 4.設定資料庫schema  ok
 5.實作註冊功能，儲存使用者資料 ok
+6.設定session ok

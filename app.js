@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars')
 const helpers = require('handlebars-helpers')();
 const methodOverride = require('method-override') 
 const routes = require('./routes/index')
+const session = require('express-session')
 const app = express()
 
 if(process.env.NODE_ENV !== 'production'){
@@ -26,6 +27,12 @@ app.use(methodOverride('_method'))
 
 //設定視圖引擎
 app.set('view engine' , 'handlebars')
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 //建立伺服器參數
 const port = 3000
