@@ -65,7 +65,13 @@ http://localhost:3000
 ```
 7.第一次使用需要進行帳號註冊，或使用Facebook進行登入
 ```
-請選擇register或是使用Facebook進行登入
+請選擇register或是使用Facebook進行登入，如您有建立種子資料，請使用以下資訊進行測試
+user1：
+  email: user1@example.com
+  password: 12345678
+user2：
+  email: user2@example.com
+  password: 12345678
 ```
 8.登入完成後，就可以開始使用本專案的功能囉
 
