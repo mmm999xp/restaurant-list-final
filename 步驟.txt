@@ -27,3 +27,4 @@ CRUD實作
 5.實作註冊功能，儲存使用者資料 ok
 6.設定session ok
 7.設定passport ok
+8.新增登出路由 ok
