@@ -6,6 +6,7 @@ const helpers = require('handlebars-helpers')();
 const methodOverride = require('method-override') 
 const routes = require('./routes/index')
 const session = require('express-session')
+const usePassport = require('./config/passport')
 const app = express()
 
 if(process.env.NODE_ENV !== 'production'){
@@ -33,6 +34,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+
+usePassport(app)
 
 //建立伺服器參數
 const port = 3000
